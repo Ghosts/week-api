@@ -1,12 +1,13 @@
 {
   "name": "week",
   "version": "1.0.0",
+  "type": "module",
   "description": "Server for the week budgeting app.",
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
     "prestart": "yarn build",
-    "start": "node .",
+    "start": "node ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

@@ -1,19 +1,14 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const plaid_1 = __importDefault(require("plaid"));
-const app = express_1.default();
+import express from "express";
+import plaid from "plaid";
+const app = express();
 const port = process.env.PORT || 5000;
 const clientID = process.env.CLIENT_ID || "";
 const secret = process.env.SECRET || "";
 app.listen(port, () => console.log(`Listening on port ${port}`));
-const plaidClient = new plaid_1.default.Client({
+const plaidClient = new plaid.Client({
     clientID,
     secret,
-    env: plaid_1.default.environments.sandbox,
+    env: plaid.environments.sandbox,
     options: { version: "2019-05-29" },
 });
 app.get("/getToken", (req, res) => {
