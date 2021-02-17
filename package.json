@@ -4,7 +4,6 @@
   "description": "Server for the week budgeting app.",
   "main": "dist/server.js",
   "scripts": {
-    "prebuild": "eslint server.ts --fix",
     "build": "tsc",
     "prestart": "yarn build",
     "start": "node .",

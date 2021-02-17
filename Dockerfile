@@ -1,4 +1,4 @@
-FROM node:12-alpine as builder
+FROM node:12-alpine as build
 
 WORKDIR /app
 COPY package.json /app/package.json
@@ -8,7 +8,7 @@ RUN yarn build
 
 FROM node:12-alpine
 WORKDIR /app
-COPY --from=builder /app/dist /app
+COPY --from=build /app/dist /app
 COPY package.json /app/package.json
 RUN yarn --prod
 
