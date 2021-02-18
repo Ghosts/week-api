@@ -17,7 +17,7 @@ const plaidClient = new plaid.Client({
 
 app.get("/getToken", (req, res) => {
   const id = req.query.id as string;
-  const email = req.query.email as string;
+  // const email = req.query.email as string;
   plaidClient
     .createLinkToken({
       client_name: "week",
