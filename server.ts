@@ -38,6 +38,6 @@ app.get("/getToken", (req, res) => {
     })
     .catch((e) => {
       console.log(e);
-      res.json(e);
+      res.json({ error: e });
     });
 });
