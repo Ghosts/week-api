@@ -25,9 +25,6 @@ app.get("/getToken", (req, res) => {
       country_codes: ["US"],
       user: {
         client_user_id: id,
-        email_address: {
-          value: email,
-        },
       },
       products: ["auth", "transactions"],
     })
