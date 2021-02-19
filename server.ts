@@ -3,13 +3,16 @@ import express from "express";
 import plaid from "plaid";
 // import moment from "moment";
 import admin from "firebase-admin";
+import Stripe from "stripe";
 
-const serviceAccount = process.env.SERVICE_ACCOUNT || "";
-const port = process.env.PORT || 5000;
-const clientID = process.env.CLIENT_ID || "";
-const secret = process.env.SECRET || "";
+const serviceAccount = process.env.SERVICE_ACCOUNT || ""; // JSON firestore service account
+const port = process.env.PORT || 5000; // default port
+const clientID = process.env.CLIENT_ID || ""; // plaid client ID
+const secret = process.env.SECRET || ""; // plaid secret
+const stripe_secret = process.env.STRIPE_SECRET || "";
+const stripe_key = process.env.STRIPE_KEY || "";
 
-console.log(serviceAccount);
+const stripe = new Stripe(stripe_key, { apiVersion: "2020-08-27" });
 
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(serviceAccount)),
@@ -28,6 +31,25 @@ const plaidClient = new plaid.Client({
   secret,
   env: plaid.environments.sandbox,
   options: { version: "2019-05-29" },
+});
+
+app.post("/stripehook", (req, res) => {
+  const payload = req.body;
+  const sig = req.headers["stripe-signature"];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(payload, sig, stripe_secret);
+  } catch (err) {
+    return res.status(400);
+  }
+
+  // Handle the checkout.session.completed event
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    console.log("SESSION: " + session);
+  }
+
+  res.status(200);
 });
 
 app.get("/getToken", (req, res) => {
@@ -50,7 +72,7 @@ app.get("/getToken", (req, res) => {
     })
     .catch((e) => {
       console.log(e);
-      res.json({ error: e });
+      res.status(500).json({ error: e });
     });
 });
 
