@@ -57,6 +57,7 @@ app.get("/getToken", (req, res) => {
 type webhookType = "auth" | "transactions";
 
 app.post("/webhook", (req, res) => {
+  console.log("START REQ: " + req);
   const { webhook_type: webhookType } = req.body;
   switch (webhookType.toLowerCase() as webhookType) {
     case "transactions":
