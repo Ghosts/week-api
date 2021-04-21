@@ -61,6 +61,7 @@ app.get("/getToken", (req, res) => {
       user: {
         client_user_id: id,
       },
+      webhook: "https://safetyspend.app/api/webhook",
       products: ["auth", "transactions"],
     })
     .then((r) => {
