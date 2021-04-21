@@ -20,8 +20,6 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-console.log(db.collection("users"));
-
 const app = express();
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -29,7 +27,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 const plaidClient = new plaid.Client({
   clientID,
   secret,
-  env: plaid.environments.sandbox,
+  env: plaid.environments.development,
   options: { version: "2019-05-29" },
 });
 
